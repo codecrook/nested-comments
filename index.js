@@ -4,34 +4,70 @@
     const Model = (function () {
         const data = {
             posts: [
-                Post(
-                    1,
-                    `I'm a frontend developer with 2.5 years of experience working in large - scale enterprise applications.
-                     🏭🚀The techologies I work on: React⚛️, GraphQL🕸, Node.js🚀 ...etc.
-                    `,
-                    'codecrook'
-                )
             ],
-            comments: []
+            comments: [
+                {
+                    id: 1,
+                    content: 'Nice!!',
+                    username: 'getify',
+                    postId: 1,
+                    comments: [
+                        {
+                            id: 2, username: 'ry', content: 'This guy z good', postId: 1,
+                            comments: [{ id: 1, username: 'isaacs', content: 'yeah man!', postId: 1, comments: [] }]
+                        }
+                    ]
+                }
+            ]
         };
 
-        const Post = (id, content, username) => ({ id, content, username });
-        const Comment = (id, content, username, postId) => ({ id, content, username, postId });
+        const Post = (id, content, username, likes) => ({ id, content, username });
+        const Comment = (id, content, username, postId, comments) => ({ id, content, username, postId, comments });
 
         return ({
             getAllPosts: () => data.posts,
             getPostById: (id) => data.posts.find(p => p.id === id) || 'no posts found',
-            getCommentsByPostId: (postId) => data.comments.filter(c => c.postId === postId)
+            getCommentsByPostId: (postId) => data.comments.filter(c => c.postId === postId),
+            // addNewComment: (content, username, postId) => {}
         });
     })();
 
     const View = (function () {
+        const DOMElements = {
+            postContainer: document.querySelector('.post-container'),
+            commentsContainer: document.querySelector('.comments-container'),
+        };
 
+        return {
+            getDOMElementByName: (element) => DOMElements[element]
+        }
     })();
 
     const Controller = (function (model, view) {
+        const buildComments = (comment) => {
+            const { username, content, comments } = comment;
+            return `
+                <div class="comment" style="padding-left: 10px">
+                    <h4 class="comment-username">${username}</h4>
+                    <p class="comment-content">
+                        ${content}
+                    </p>
+                    <hr style="margin-bottom: 5px">
+                    ${comments.length > 0 ? comments.map(comment => buildComments(comment)).join('') : ''}
+                </div>
+            `;
+        }
+        const renderAllComments = () => {
+            const allCommnets = model.getCommentsByPostId(1);
+            const commentsContainer = view.getDOMElementByName('commentsContainer');
+            commentsContainer.innerHTML = allCommnets.map(comment => buildComments(comment));
+        }
         return {
-
+            render: () => {
+                renderAllComments();
+            }
         }
     })(Model, View);
+
+    Controller.render();
 }
