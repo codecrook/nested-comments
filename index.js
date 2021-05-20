@@ -14,7 +14,19 @@
                     comments: [
                         {
                             id: 2, username: 'ry', content: 'This guy z good', postId: 1,
-                            comments: [{ id: 1, username: 'isaacs', content: 'yeah man!', postId: 1, comments: [] }]
+                            comments: [{ id: 3, username: 'isaacs', content: 'yeah man!', postId: 1, comments: [] }]
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    content: 'I need this guy in my company ASAP.',
+                    username: 'elonmusk',
+                    postId: 1,
+                    comments: [
+                        {
+                            id: 5, username: 'BillGates', content: 'Too late musky! Sent the offer letter already.', postId: 1,
+                            comments: []
                         }
                     ]
                 }
@@ -52,9 +64,9 @@
                     <p class="comment-content">
                         ${content}
                     </p>
-                    <hr style="margin-bottom: 5px">
                     ${comments.length > 0 ? comments.map(comment => buildComments(comment)).join('') : ''}
                 </div>
+                
             `;
         }
         const renderAllComments = () => {

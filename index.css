@@ -16,6 +16,7 @@ main {
     margin: auto;
     border: 1px solid black;
     padding: 5vw;
+    overflow-y: scroll;
 }
 
 .post {
@@ -27,9 +28,13 @@ main {
 }
 
 .comments-container {
+    padding-left: 20px;
     margin-top: 0.8vh;
     opacity: 0.7;
     color:  #566573;
+}
+.comment {
+    margin-top: 20px;
     padding: 20px 20px 20px 50px;
     border-radius: 10px;
     box-shadow:  2px 2px 10px #bebebe,
